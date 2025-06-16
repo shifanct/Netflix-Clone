@@ -2,13 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home – Netflix Clone</title>
 </head>
 <body>
-    <h1 style="color:aqua">This is home Page</h1>
+    <h1>Welcome to Netflix Clone 🎬</h1>
 
-    <a href="{% url 'logout' %}">Log out</a>
-    
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+
+        {% if user.is_superuser %}
+            <!-- Show Add Movie button only for superuser -->
+            <a href="{% url 'add_movie' %}"
+               style="padding: 10px 15px; background: red; color: white; text-decoration: none; border-radius: 5px;">
+                ➕ Add Movie
+            </a>
+        {% endif %}
+
+        <p><a href="{% url 'movie_list' %}">🎥 View All Movies</a></p>
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to continue.</p>
+    {% endif %}
 </body>
 </html>

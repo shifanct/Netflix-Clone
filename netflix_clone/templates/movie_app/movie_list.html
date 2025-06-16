@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netflix Clone – Movie List</title>
+    <style>
+        .movie {
+            margin-bottom: 40px;
+        }
+        .thumbnail-container {
+            position: relative;
+            width: 560px;
+            height: 315px;
+            cursor: pointer;
+        }
+        .thumbnail-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 All Movies</h1>
+
+    <!-- Show Add Movie button if superuser -->
+    {% if user.is_superuser %}
+        <p>
+            <a href="{% url 'add_movie' %}" style="padding: 10px 15px; background: red; color: white; text-decoration: none; border-radius: 5px;">
+                ➕ Add New Movie
+            </a>
+        </p>
+    {% endif %}
+
+    <!-- Movie List -->
+    {% for movie in movies %}
+        <div class="movie">
+            <h2>{{ movie.title }}</h2>
+
+            <!-- Thumbnail that turns into video -->
+            <div class="thumbnail-container">
+                <img src="{{ movie.thumbnail.url }}"
+                     data-video-id="{{ movie.video_url|cut:'https://www.youtube.com/watch?v=' }}"
+                     onclick="loadVideo(this)">
+            </div>
+
+            <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            <p>{{ movie.description }}</p>
+        </div>
+    {% endfor %}
+
+    <script>
+        function loadVideo(img) {
+            const videoId = img.dataset.videoId;
+            const iframe = document.createElement('iframe');
+            iframe.width = '560';
+            iframe.height = '315';
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+
+            const container = img.parentNode;
+            container.innerHTML = '';
+            container.appendChild(iframe);
+        }
+    </script>
+</body>
+</html>

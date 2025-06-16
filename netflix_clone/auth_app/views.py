@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from movie_app.models import Movie
 
 # Create your views here.
 
@@ -45,4 +45,6 @@ def logout(request):
 
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'home.html')
+    movies = Movie.objects.order_by('-uploaded_at')[:6]  # ✅ Fetch latest 6 movies
+    return render(request, 'home.html', {'movies': movies})  # ✅ Send to template
+
