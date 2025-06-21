@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,16 +76,23 @@ WSGI_APPLICATION = 'netflix_clone.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netflix_clone',
-        'USER':'postgres',
-        'PASSWORD':'6238',
-        'PORT':5432,
-        'HOST':'localhost'
 
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'netflix_clone',
+#         'USER':'postgres',
+#         'PASSWORD':'6238',
+#         'PORT':5432,
+#         'HOST':'localhost'
+
+#     }
+# }
+
+DATABASES = {
+    'default': dj_database_url.parse(
+        'postgresql://postgres:fFwSdrcKJsbLxHTsdaYDtugSkZbqVfIu@maglev.proxy.rlwy.net:21576/railway'
+    )
 }
 
 
