@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,12 +87,16 @@ WSGI_APPLICATION = 'netflix_clone.wsgi.application'
 
 #     }
 # }
+import os
+import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()  # This reads the .env file
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://postgres:fFwSdrcKJsbLxHTsdaYDtugSkZbqVfIu@maglev.proxy.rlwy.net:21576/railway'
-    )
+    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
+
 
 
 # Password validation
@@ -139,7 +142,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
+
 
 
 MEDIA_URL = '/media/'
